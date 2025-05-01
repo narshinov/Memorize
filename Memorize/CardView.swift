@@ -8,27 +8,31 @@
 import SwiftUI
 
 struct CardView: View {
-    var isFaceUp: Bool = false
+    let content: String
+    @State var isFaceUp = true
     
     var body: some View {
         ZStack {
-            if isFaceUp {
-                RoundedRectangle(cornerRadius: 12)
-                    .foregroundStyle(.white)
-                RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(lineWidth: 2)
-                Text("🐶")
+            let base = RoundedRectangle(cornerRadius: 12)
+            Group {
+                base.foregroundStyle(.white)
+                base.strokeBorder(lineWidth: 2)
+                Text(content)
                     .font(.largeTitle)
-            } else {
-                RoundedRectangle(cornerRadius: 12)
             }
+            .opacity(isFaceUp ? 1 : 0)
+            base.fill().opacity(isFaceUp ? 0 : 1)
+            
             
         }
         .foregroundStyle(.orange)
         .padding()
+        .onTapGesture {
+            isFaceUp.toggle()
+        }
     }
 }
 
 #Preview {
-    CardView()
+    CardView(content: "🐶")
 }
