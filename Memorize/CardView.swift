@@ -29,9 +29,10 @@ struct CardView: View {
             base.fill().opacity(card.isFaceUp ? 0 : 1)
         }
         .foregroundStyle(.orange)
+        .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
     }
 }
 
 #Preview {
-    CardView(.init(content: "🧸"))
+    CardView(.init(content: "🧸", id: "1a"))
 }
