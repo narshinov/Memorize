@@ -19,7 +19,6 @@ struct EmojiMemoryGameView: View {
                 viewModel.shuffle()
             }
         }
-        
     }
     
     var cards: some View {
@@ -30,28 +29,6 @@ struct EmojiMemoryGameView: View {
                 CardView(viewModel.cards[$0])
                     .aspectRatio(2/3, contentMode: .fit)
                     .padding(2)
-            }
-        }
-    }
-    
-    var themes: some View {
-        HStack(spacing: 32) {
-            let thems = ThemeType.allCases
-            ForEach(0..<3, id: \.self) {
-                themeCoosing(with: thems[$0])
-            }
-        }
-    }
-
-    func themeCoosing(with theme: ThemeType) -> some View {
-        Button {
-//            cardsContent = theme.preparedCards
-        } label: {
-            VStack {
-                Image(systemName: theme.imageName)
-                    .imageScale(.large)
-                    .font(.title)
-                Text(theme.rawValue)
             }
         }
     }
