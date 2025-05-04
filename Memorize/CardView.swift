@@ -15,23 +15,35 @@ struct CardView: View {
     }
     
     var body: some View {
-        ZStack {
-            let base = RoundedRectangle(cornerRadius: 12)
-            Group {
-                base.foregroundStyle(.white)
-                base.strokeBorder(lineWidth: 2)
+        Pie(endAngle: .degrees(90))
+            .opacity(0.4)
+            .overlay {
                 Text(card.content)
                     .font(.system(size: 200))
                     .minimumScaleFactor(0.01)
                     .aspectRatio(1, contentMode: .fit)
+                    .padding(2)
             }
-            .opacity(card.isFaceUp ? 1 : 0)
-            base.fill().opacity(card.isFaceUp ? 0 : 1)
-        }
-        .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+            .padding(6)
+            .cardify(isFaceUp: card.isFaceUp)
+            .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
     }
 }
 
 #Preview {
-    CardView(.init(content: "🧸", id: "1a"))
+    typealias Card = MemoryGame<String>.Card
+    return VStack {
+        HStack {
+            CardView(Card(isFaceUp: true, content: "🐻", id: "1"))
+            CardView(Card(content: "🐻", id: "2"))
+        }
+        HStack {
+            CardView(Card(isFaceUp: true, isMatched: true, content: "🐻", id: "1"))
+            CardView(Card(isMatched: true, content: "🐻", id: "2"))
+        }
+    }
+    .padding()
+    .foregroundStyle(.orange)
+
+    
 }

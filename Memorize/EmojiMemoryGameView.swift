@@ -30,6 +30,7 @@ struct EmojiMemoryGameView: View {
                     viewModel.choosen(card)
                 }
         }
+        .padding()
         .foregroundStyle(.orange)
     }
     
