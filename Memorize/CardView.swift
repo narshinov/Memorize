@@ -15,18 +15,27 @@ struct CardView: View {
     }
     
     var body: some View {
-        Pie(endAngle: .degrees(90))
-            .opacity(0.4)
-            .overlay {
-                Text(card.content)
-                    .font(.system(size: 200))
-                    .minimumScaleFactor(0.01)
-                    .aspectRatio(1, contentMode: .fit)
-                    .padding(2)
+        TimelineView(.animation) { timeLine in
+            if card.isFaceUp || !card.isMatched {
+                Pie(endAngle: .degrees(card.bonucePercentRemaining * 360))
+                    .opacity(0.4)
+                    .overlay(cardContent.padding(2))
+                    .padding(6)
+                    .cardify(isFaceUp: card.isFaceUp)
+                    .transition(.scale)
+            } else {
+                Color.clear
             }
-            .padding(6)
-            .cardify(isFaceUp: card.isFaceUp)
-            .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+        }
+    }
+    
+    var cardContent: some View {
+        Text(card.content)
+            .font(.system(size: 200))
+            .minimumScaleFactor(0.01)
+            .aspectRatio(1, contentMode: .fit)
+            .rotationEffect(.degrees(card.isMatched ? 360 : 0))
+            .animation(.spin(duration: 2), value: card.isMatched)
     }
 }
 
@@ -46,4 +55,10 @@ struct CardView: View {
     .foregroundStyle(.orange)
 
     
+}
+
+extension Animation {
+    static func spin(duration: CGFloat) -> Animation {
+        .linear(duration: duration).repeatForever(autoreverses: false)
+    }
 }
